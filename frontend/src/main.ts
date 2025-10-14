@@ -1,8 +1,5 @@
 // import {  } from "./Todolist.js"
-
-// Simple Pomodoro Timer
-let timeLeft = 25 * 60; // 25 minutes
-let timer: number | null = null;
+import { renderApp } from "./router.js"
 
 window.addEventListener("DOMContentLoaded", renderApp);
 window.addEventListener("popstate", renderApp);

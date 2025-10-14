@@ -1,5 +1,5 @@
 // import { renderLoginPage } from "./login.js";
-// import { renderHomePage } from "./home.js";
+import { renderHomePage } from "./homepage.js";
 // import { renderSignUpPage } from "./signup";
 // import { renderProfilePage } from "./profile.js";
 // import { renderFriendsPage } from "./friends.js";
@@ -15,4 +15,5 @@ export function renderApp() {
 	const path = window.location.pathname;
 	if (path === '/') {
 		renderHomePage(app);
+	}
 }

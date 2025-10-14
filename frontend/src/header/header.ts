@@ -52,13 +52,13 @@ export function createHeader(): HTMLElement {
 		friendsItem.querySelector(".tooltip")?.classList.add("-left-1");
 		nav.append(friendsItem);
 
-        //logout
-        const logoutbutton = createMenuItem("Log Out", "/", "Log Out");
-        logoutbutton.addEventListener("click", (e: Event) => {
-			e.preventDefault(); // prevents navigation to "#"
-			logoutHandler();
-		});
-		nav.append(logoutbutton);
+        // //logout
+        // const logoutbutton = createMenuItem("Log Out", "/", "Log Out");
+        // logoutbutton.addEventListener("click", (e: Event) => {
+		// 	e.preventDefault(); // prevents navigation to "#"
+		// 	logoutHandler();
+		// });
+		// nav.append(logoutbutton);
 	} else {
         // Sign In
         nav.appendChild(createMenuItem("Sign In", "/login", "Sign in!"));

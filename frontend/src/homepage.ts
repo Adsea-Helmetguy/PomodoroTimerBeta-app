@@ -1,4 +1,4 @@
-// import { renderHeader } from "./components/header";
+import { renderHeader } from "./header/header";
 // import { API_BASE } from "./variable"
 
 //For reference:
@@ -32,21 +32,6 @@ export async function renderHomePage(container: HTMLElement) {
 		title.append(document.createTextNode("Welcome to our FT_Transcendence Project!"));
 	}
 
-	if (isLoggedIn) {
-		try {
-			const response = await fetch(`${API_BASE}/api/profile/${isLoggedIn}`, {
-				credentials: "include"
-			});
-			if (!response.ok) {
-				throw new Error(`HTTP error! Status: ${response.status}`);
-			}
-		const user = await response.json();
-		user_name.textContent = user.name;
-		} catch (err) {
-			console.error("Failed to load user:", err);
-      		user_name.textContent = "Error.exe";
-		}
-	}
 	const playLink = document.createElement("a");
 	playLink.href = "/play";
 	playLink.className =
