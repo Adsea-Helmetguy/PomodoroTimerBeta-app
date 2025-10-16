@@ -1,19 +1,90 @@
-import { renderHeader } from "./header/header";
+import { renderHeader } from "./components/header/header.js";
+// import { pomodoro_timer } from "./timer/pomodoro_timer.js"
 // import { API_BASE } from "./variable"
 
 //For reference:
 //https://tailwind.build/classes
-export async function renderHomePage(container: HTMLElement) {
-	//renderHeader(container);
 
-	const	line = document.createElement("br");
+function	headerbox_container(): HTMLElement {
 	const	headerbox = document.createElement("div");
-	headerbox.className = "flex justify-start relative group";
+	headerbox.className = "flex justify-start";
+	headerbox.id = "headerbox";
+
+	renderHeader(headerbox);
+	return(headerbox);
+}
+
+function	homePage_container(): HTMLElement {
+	const	welcomeTitle = document.createElement("p");
+	welcomeTitle.className = "flex justify-center text-2xl font-bold"
+	welcomeTitle.textContent = "Welcome!";
+	welcomeTitle.id = "welcome_title";
+	const	title = document.createElement("p");
+	title.className = "flex justify-center text-2xl font-bold"
+	title.textContent = "Ready to start using Pomodoro?";
+	title.id = "title";
+
+	//px(pr + pl)-> left + right
+	//py(pt + pb)-> top + bottom
+	const	button = document.createElement("button");
+	button.className = "ease-out transform transition hover:scale-125 inline \
+						delay 75 duration-200 bg-teal-400 px-6 py-2 m-6 \
+						border-2 border-blue-500 hover:border-gray-500 \
+						hover:hover:text-black hover:opacity-50 hover:shadow-md";
+
+	//p(padding) -> space inside the element(between content and border)
+	//m(margin) -> space outside of element(between this and other elements)
+	const	titleWrapper = document.createElement("div");
+	titleWrapper.className = "flex flex-col text-2xl font-bold";
+
+	titleWrapper.append(welcomeTitle, title);
+	return(titleWrapper);
+}
+
+function	button_container(): HTMLElement {
+	//const	timer_button = document.createElement("button");
+	//update title and change background to zen once you press the button:
+	/*
+		const title = document.querySelector("h1");
+		if (title) title.textContent = "Updated Title";
+		const img = document.querySelector("img");
+		if (img) img.setAttribute("alt", "A cool picture");
+	*/
+	const	buttonWrapper = document.createElement("div");
+	buttonWrapper.className = "text-2xl font-bold p-6";
+	return (buttonWrapper);
+}
+
+export function HeaderHome_container(): HTMLElement {
+	const	titleWrapper = homePage_container();
+	const	headerbox = headerbox_container();
+	const	buttonWrapper = button_container();
+
+	//flex-col as column and flex-grow expand to fill all available space left
 	const	homePage = document.createElement("div");
-	//flex-col and flex-grow expand to fill all available space left
+	homePage.className = "flex flex-col justify-center items-center flex-grow text-center";
+	homePage.append(titleWrapper, buttonWrapper);
+
+	const	homePageWrapper = document.createElement("div");
+	homePageWrapper.className = "flex flex-col min-h-screen";
+	homePageWrapper.append(headerbox, homePage);
+	return homePageWrapper;
+}
+
+export function renderHomePage(container: HTMLElement) {
+	const homePage = HeaderHome_container();
+	container.append(homePage);
+	return container;
+}
+
+/*
+export function HeaderHome_container(): HTMLElement {
+	const	headerbox = document.createElement("div");
+	headerbox.className = "flex justify-start";
+	const	homePage = document.createElement("div");
+	//flex-col as column and flex-grow expand to fill all available space left
 	homePage.className = "flex flex-col justify-center items-center flex-grow text-center";
 
-	//flex justify-center items-center min-h-screen
 	renderHeader(headerbox);
 
 	const	welcomeTitle = document.createElement("p");
@@ -40,20 +111,25 @@ export async function renderHomePage(container: HTMLElement) {
 
 	titleWrapper.append(welcomeTitle, title);
 	//update title and change background to zen once you press the button:
-	/*
-		const title = document.querySelector("h1");
-		if (title) title.textContent = "Updated Title";
-		const img = document.querySelector("img");
-		if (img) img.setAttribute("alt", "A cool picture");
-	*/
 
-	homePage.append(titleWrapper, line, buttonWrapper);
+	homePage.append(titleWrapper, buttonWrapper);
 	const	homePageWrapper = document.createElement("div");
-	homePageWrapper.className = "flex flex-col relative group min-h-screen";
+	homePageWrapper.className = "flex flex-col min-h-screen";
 	homePageWrapper.append(headerbox, homePage);
-	container.append(homePageWrapper);
-	return container;
+	return homePageWrapper;
 }
+*/
+
+
+
+
+
+
+
+
+
+
+
 
 
 

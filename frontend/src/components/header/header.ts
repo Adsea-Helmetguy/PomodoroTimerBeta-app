@@ -24,7 +24,7 @@ export function createHeader(): HTMLElement {
         link.className = "flex p-2 text-black hover:bg-blue-100 hover:underline \
                             hover:text-blue-900 hover:shadow-md rounded-md \
                             hover:border-gray-500 transform transition";
-		link.textContent = text; // For textbox name
+		link.textContent = text;
 
 		const tooltipDiv = document.createElement("div");
 		tooltipDiv.className =
@@ -33,9 +33,8 @@ export function createHeader(): HTMLElement {
 			pointer-events-none transition-opacity duration-200"
 		tooltipDiv.textContent = tooltip;
 
-        const wrapper = document.createElement("div"); //outer div
-        // wrapper.className = "flex flex-shrink relative group";
-        wrapper.className = "relative group inline-block";
+        const wrapper = document.createElement("div");
+        wrapper.className = "flex flex-shrink relative group";
         wrapper.append(link, tooltipDiv);
         return wrapper;
     };
