@@ -40,9 +40,10 @@ export function createHeader(): HTMLElement {
     };
 
     // Home
+	nav.appendChild(createMenuItem("About user", "/", "Change session timings"));
+	nav.appendChild(createMenuItem("⚙️ Customise Timer", "/", "Change session timings"));
+	nav.appendChild(createMenuItem("↻ Restart session", "/", "Restart pomodoro session"));
 	nav.appendChild(createMenuItem("Home", "/", "Return to the top"));
-    nav.appendChild(createMenuItem("↻ Restart session", "/", "Restart pomodoro session"));
-    nav.appendChild(createMenuItem("⚙️ Customise Timer", "/", "Change session timings"));
     return header;
 }
 

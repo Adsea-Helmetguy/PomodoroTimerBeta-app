@@ -1,6 +1,5 @@
 import { renderHeader } from "./components/header/header.js";
-import { buttonContainer } from "./components/button/button.js";
-// import { pomodoro_timer } from "./timer/pomodoro_timer.js"
+import { pomodoro_creator } from "./components/button/pomodoro_timer.js"
 // import { API_BASE } from "./variable"
 
 //For reference:
@@ -24,10 +23,19 @@ function	homePage_container(): HTMLElement {
 	title.textContent = "Ready to start using Pomodoro?";
 	title.id = "title";
 
-	//px(pr + pl)-> left + right
-	//py(pt + pb)-> top + bottom
-	const	button = buttonContainer({classes:{containerClass:"flex justify-center",buttonClass:"flex justify-center"},
-										id:{containerId:"button_container",buttonId:"button"}});
+	const	button = pomodoro_creator();
+	//create timer eventlistener
+	// const	startButton = buttonContainer({classes:{buttonClass:"flex justify-center"}, id:{buttonId:"Start"}});
+	// const	pauseButton = buttonContainer({classes:{buttonClass:"flex justify-center"}, id:{buttonId:"Pause"}});
+	// const	resetButton = buttonContainer({classes:{buttonClass:"flex justify-center"}, id:{buttonId:"Reset"}});
+	// startButton.addEventListener('click', startTimer);
+	// pauseButton.addEventListener('click', pauseTimer);
+	// resetButton.addEventListener('click', resetTimer);
+
+
+
+
+
 
 	//p(padding) -> space inside the element(between content and border)
 	//m(margin) -> space outside of element(between this and other elements)
@@ -41,11 +49,6 @@ function	homePage_container(): HTMLElement {
 export function HeaderHome_container(): HTMLElement {
 	const	titleWrapper = homePage_container();
 	const	headerbox = headerbox_container();
-	// const	buttonWrapper = buttonContainer({
-	// 	classAppend: {
-	// 		container: 
-	// 	}
-	// });
 
 	//flex-col as column and flex-grow expand to fill all available space left
 	const	homePage = document.createElement("div");
@@ -171,9 +174,9 @@ export async function renderHomePage(container: HTMLElement) {
 	
 	const tooltipDiv = document.createElement("div");
 	tooltipDiv.className =
-	  "tooltip absolute left-1/2 -translate-x-1/2 mt-1 w-max text-sm text-gray-800 bg-white " +
-	  "border border-gray-300 rounded shadow-lg px-2 py-1 opacity-0 group-hover:opacity-100 " +
-	  "transition-opacity duration-200 pointer-events-none transition-all duration-1000";
+	"tooltip absolute left-1/2 -translate-x-1/2 mt-1 w-max text-sm text-gray-800 bg-white " +
+	"border border-gray-300 rounded shadow-lg px-2 py-1 opacity-0 group-hover:opacity-100 " +
+	"transition-opacity duration-200 pointer-events-none transition-all duration-1000";
 	tooltipDiv.textContent = "GO AHEAD MR JOESTAR!";
 
 	const wrapper = document.createElement("div");
@@ -182,6 +185,6 @@ export async function renderHomePage(container: HTMLElement) {
 	homePage.append(title, wrapper);
 	container.append(homePage);
 
-   return container;
+return container;
 }
 */
