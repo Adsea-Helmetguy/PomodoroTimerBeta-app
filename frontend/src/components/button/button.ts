@@ -18,7 +18,7 @@ export interface classAppend {
 }
 export interface buttonContainerId { 
 	containerId?:string;
-	buttonId?:string | null;
+	buttonId:string | null;
 }
 export interface buttonContainerProps {
 	id:buttonContainerId;
