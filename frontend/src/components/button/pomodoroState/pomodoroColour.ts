@@ -1,16 +1,23 @@
 // define allowed colors
 type TailwindColor = "green" | "blue" | "yellow"; // etc
 
-const colorMap: Record<TailwindColor, string> = {
-    green: "text-green-500 bg-green-500 border-green-500",
-    blue: "text-sky-500 bg-sky-500 border-sky-500",
-    yellow: "text-yellow-500 bg-yellow-500 border-yellow-500",
+const radius_colourMap: Record<TailwindColor, string> = {
+    green: "text-green-500 border-green-500",
+    blue: "text-sky-500 border-sky-500",
+    yellow: "text-yellow-500 border-yellow-500",
+};
+
+const timer_colourMap: Record<TailwindColor, string> = {
+    green: "text-green-500 border-green-500",
+    blue: "text-sky-500 border-sky-500",
+    yellow: "text-yellow-500 border-yellow-500",
 };
 
 interface Timer {
     radiusBg_colour:TailwindColor;
-    time_mins: number;
-    time_secs: number;
+	timertext_colour:TailwindColor;
+    time_mins: string;
+    time_secs: string;
     isStarted: boolean;
 }
 
@@ -27,29 +34,31 @@ const classes = colorMap[myTimer.radiusBg_colour.color];
 
 //initialTime: string = "00:01"
 export function	timerUI (props:Timer): HTMLElement {
-    const	colour = props.radiusBg_colour;
+	const	radius_colour = radius_colourMap[props.radiusBg_colour];
+	const	timer_colour = timer_colourMap[props.timertext_colour];
     const   mins = props.time_mins;
     const   secs = props.time_secs;
-    // const	timerState = props.isStarted;
+    //const	timerState = props.isStarted;
 
     // if (timerState != true)
     //     return;
     //container
     const	timerCircle_container = document.createElement("div");
-    timerCircle_container.className = "timer-circle relative w-40 h-40";
+    timerCircle_container.id = "timer_container";
+    timerCircle_container.className = "timer-circle relative flex justify-center items-center p-30";//text-9xl font-bold
 
     // left half-circle
     const circleLeft = document.createElement("div");
-    circleLeft.className = `circle-left absolute w-40 h-40 rounded-full border-4 ${colour}`;
+	circleLeft.className = `circle-left absolute w-90 h-90 rounded-full border-4 ${radius_colour}`;
 
     // right half-circle
     const circleRight = document.createElement("div");
-    circleRight.className = `circle-left absolute w-40 h-40 rounded-full border-4 ${colour}`;
+	circleRight.className = `circle-left absolute w-90 h-90 rounded-full border-4 ${radius_colour}`;
 
     // timer text in center
     const timerText = document.createElement("div");
     timerText.id = "timer";
-    timerText.className = "absolute inset-0 flex justify-center items-center text-4xl font-bold";
+    timerText.className = "flex justify-center items-center text-9xl font-bold";
     timerText.textContent = `${mins}:${secs}`;
 
     timerCircle_container.append(circleLeft, circleRight, timerText);

@@ -61,7 +61,7 @@ function Home_container_creation(): HTMLElement {
 export function renderHomePage(main_container: HTMLElement, header_container: HTMLElement) {
 	const	homePage = Home_container_creation();
 	const	header = header_container_creation();
-	homePage.className = "py-20"
+	homePage.className = "py-5"
 
 	main_container.append(homePage);
 	header_container.append(header);

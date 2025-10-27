@@ -1,4 +1,5 @@
 import { meowMp3, NotifyToast_header } from "../pomodoroHelper/pomodoro_helper.js";
+import { timerUI } from "../pomodoroState/pomodoroColour.js";
 
 //time
 const	timeforPomodoro = 1; //25 * 60
@@ -10,19 +11,36 @@ let	pomodoro_counter = 0;
 // let	shortrest_counter = 0;
 // let	longrest_counter = 0; //if pomodoro is % by 4, longrest activates
 
+// export function timerDisplay_function(): HTMLElement {
+// 	const timerDisplay = document.createElement("div");
+// 	timerDisplay.id = "timer";
+// 	timerDisplay.className = "flex justify-center items-center text-bold text-9xl";
+
+// 	//when Math.floor returns a value, then next '.command' will execute,
+// 	// Which in this case it's '.toString' which converts number to string
+// 	// *1) and then to pad to always show two sets of characters
+// 	// const	mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+// 	const	mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+// 	const	secs = Math.floor(timeLeft % 60).toString().padStart(2, '0');
+// 	timerDisplay.textContent = `${mins}:${secs}`;
+
+// 	return (timerDisplay);
+// }
+
 export function timerDisplay_function(): HTMLElement {
-	const timerDisplay = document.createElement("div");
-	timerDisplay.id = "timer";
-	timerDisplay.className = "flex justify-center items-center text-bold text-9xl";
+	const timerDisplay = timerUI({
+		radiusBg_colour: "blue",
+		time_mins: Math.floor(timeLeft / 60).toString().padStart(2, '0'),
+		time_secs: Math.floor(timeLeft % 60).toString().padStart(2, '0'),
+		isStarted: true,
+	});
+	// timerDisplay.id = "timer";
+	// timerDisplay.className = "flex justify-center items-center text-bold text-9xl";
 
 	//when Math.floor returns a value, then next '.command' will execute,
 	// Which in this case it's '.toString' which converts number to string
 	// *1) and then to pad to always show two sets of characters
 	// const	mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-	const	mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-	const	secs = Math.floor(timeLeft % 60).toString().padStart(2, '0');
-	timerDisplay.textContent = `${mins}:${secs}`;
-
 	return (timerDisplay);
 }
 
