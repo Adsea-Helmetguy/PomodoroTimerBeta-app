@@ -1,42 +1,29 @@
 import { meowMp3, NotifyToast_header } from "../pomodoroHelper/pomodoro_helper.js";
 import { timerUI } from "../pomodoroState/pomodoroColour.js";
+import { stateTimer, switchPhase, handlePhaseEnd, timeforPomodoro, timeforRest, timeforLongRest } from "./pomodoroState";
 
-//time
-const	timeforPomodoro = 1; //25 * 60
-let timeLeft = 1; //default, 25mins
-let timer: number | null = null;
+type TailwindColor = "green" | "blue" | "yellow"; // etc
 
-//counter
-let	pomodoro_counter = 0;
-// let	shortrest_counter = 0;
-// let	longrest_counter = 0; //if pomodoro is % by 4, longrest activates
+const radius_colourMap: Record<TailwindColor, string> = {
+    green: "border-green-700",
+    blue: "border-blue-800",
+    yellow: "border-yellow-700",
+};
 
-// export function timerDisplay_function(): HTMLElement {
-// 	const timerDisplay = document.createElement("div");
-// 	timerDisplay.id = "timer";
-// 	timerDisplay.className = "flex justify-center items-center text-bold text-9xl";
-
-// 	//when Math.floor returns a value, then next '.command' will execute,
-// 	// Which in this case it's '.toString' which converts number to string
-// 	// *1) and then to pad to always show two sets of characters
-// 	// const	mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-// 	const	mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-// 	const	secs = Math.floor(timeLeft % 60).toString().padStart(2, '0');
-// 	timerDisplay.textContent = `${mins}:${secs}`;
-
-// 	return (timerDisplay);
-// }
+const timer_colourMap: Record<TailwindColor, string> = {
+    green: "text-green-700",
+    blue: "text-blue-800",
+    yellow: "text-yellow-700",
+};
 
 export function timerDisplay_function(): HTMLElement {
 	const timerDisplay = timerUI({
 		radiusBg_colour: "blue",
-		time_mins: Math.floor(timeLeft / 60).toString().padStart(2, '0'),
-		time_secs: Math.floor(timeLeft % 60).toString().padStart(2, '0'),
+		timertext_colour: "blue",
+		time_mins: Math.floor(stateTimer.timeLeft / 60).toString().padStart(2, '0'),
+		time_secs: Math.floor(stateTimer.timeLeft % 60).toString().padStart(2, '0'),
 		isStarted: true,
 	});
-	// timerDisplay.id = "timer";
-	// timerDisplay.className = "flex justify-center items-center text-bold text-9xl";
-
 	//when Math.floor returns a value, then next '.command' will execute,
 	// Which in this case it's '.toString' which converts number to string
 	// *1) and then to pad to always show two sets of characters
@@ -44,21 +31,44 @@ export function timerDisplay_function(): HTMLElement {
 	return (timerDisplay);
 }
 
-function	update_timerDisplay() {
+export function	update_timerDisplay() {
 	const timerDisplay = document.getElementById("timer");
 	if (timerDisplay) {
-		const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-		const secs = Math.floor(timeLeft % 60).toString().padStart(2, '0');
+		const mins = Math.floor(stateTimer.timeLeft / 60).toString().padStart(2, '0');
+		const secs = Math.floor(stateTimer.timeLeft % 60).toString().padStart(2, '0');
 		timerDisplay.textContent = `${mins}:${secs}`;
 	}
+	const timerCircle_left = document.getElementById("circleLeft");
+	const timerCircle_right = document.getElementById("circleRight");
+	if (timerCircle_left && timerCircle_right && (stateTimer.state == "rest" || stateTimer.state == "longrest")) {
+		timerCircle_left.classList.remove(radius_colourMap["green"], radius_colourMap["blue"], radius_colourMap["yellow"]);
+		timerCircle_right.classList.remove(radius_colourMap["green"], radius_colourMap["blue"], radius_colourMap["yellow"]);
+		if (stateTimer.state == "rest") {
+			timerCircle_left.classList.add(radius_colourMap["green"]);
+			timerCircle_right.classList.add(radius_colourMap["green"]);
+			timerDisplay?.classList.add(timer_colourMap["green"]);
+		}
+		if (stateTimer.state == "longrest") {
+			timerCircle_left.classList.add(radius_colourMap["yellow"]);
+			timerCircle_right.classList.add(radius_colourMap["yellow"]);
+			timerDisplay?.classList.add(timer_colourMap["yellow"]);
+		}
+
+	}
+
+	// if (appState.timeLeft <= 0) {
+	// 	clearInterval(timer!);
+	// 	meowMp3.play(); // ✅ sound
+	// 	switchPhase();
+	// }
 }
 
 function resetTimer() {
-	if (timer) {
-		clearInterval(timer);
-		timer = null;
+	if (stateTimer.timer) {
+		clearInterval(stateTimer.timer);
+		stateTimer.timer = null;
 	}
-	timeLeft = timeforPomodoro;
+	stateTimer.timeLeft = timeforPomodoro;
 	update_timerDisplay();
 }
 
@@ -70,29 +80,29 @@ function	stopTimer(button: Element, pomodoro: HTMLButtonElement, rest: HTMLButto
 		stopbutton_add_hidden?.classList.add("hidden");
 
 	button.textContent = "Start";
-	button.classList.remove("text-green-600", "text-sky-600", "text-yellow-600");
-	button.classList.add("text-sky-600");
+	button.classList.remove("text-green-600", "text-blue-800", "text-yellow-600");
+	button.classList.add("text-blue-800");
 	enableAll(pomodoro, rest, longrest);
 }
 
 function	countdown(button: Element, pomodoro: HTMLButtonElement, rest: HTMLButtonElement, longrest: HTMLButtonElement) {
-	timeLeft--;
+	stateTimer.timeLeft--;
 	update_timerDisplay();
-	if (timeLeft < 0) {
-        timeLeft = 0;
-		pomodoro_counter++;
+	if (stateTimer.timeLeft < 0) {
+        stateTimer.timeLeft = 0;
 		meowMp3();
 		NotifyToast_header("Pomodoro complete! 🎉 Time to take a break! 😺", 3000);
-        stopTimer(button, pomodoro, rest, longrest);;
+        stopTimer(button, pomodoro, rest, longrest);
+		handlePhaseEnd();
 	}
 }
 
 function	pauseTimer(button: Element) {
-	if (timer) {
-		clearInterval(timer);
-		timer = null;
+	if (stateTimer.timer) {
+		clearInterval(stateTimer.timer);
+		stateTimer.timer = null;
 		button.textContent = "Resume";
-		button.classList.remove("text-sky-600", "text-yellow-600");
+		button.classList.remove("text-green-600", "text-blue-800", "text-yellow-600");
 		button.classList.add("text-yellow-600");
 		update_timerDisplay();
 		return;
@@ -101,13 +111,13 @@ function	pauseTimer(button: Element) {
 }
 
 function	startTimer(button: Element, pomodoro: HTMLButtonElement, rest: HTMLButtonElement, longrest: HTMLButtonElement) {
-	if (timer)
+	if (stateTimer.timer)
 		return;
 	button.textContent = "Pause";
-	button.classList.remove("text-sky-600", "text-yellow-600");
-	button.classList.add("text-sky-600");
+	button.classList.remove("text-green-600", "text-blue-800", "text-yellow-600");
+	button.classList.add("text-blue-800");
 	update_timerDisplay();
-	timer = setInterval(() => countdown(button, pomodoro, rest, longrest), 1000);
+	stateTimer.timer = setInterval(() => countdown(button, pomodoro, rest, longrest), 1000);//the 3, pomodoro, rest and longrest are for enableall
 }
 
 export function	pomodoro_stop_Timer(reset_start: Element, pomodoro: HTMLButtonElement, rest: HTMLButtonElement, longrest: HTMLButtonElement) {
