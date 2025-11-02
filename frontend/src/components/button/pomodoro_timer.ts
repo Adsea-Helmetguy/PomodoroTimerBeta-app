@@ -1,4 +1,5 @@
 import { buttonContainer } from "./button.js";
+import { buttonHeader_pomodoro, buttonHeader_rest, buttonHeader_longrest } from "./ButtonHeader/buttonHeader.js";
 import { timerDisplay_function, pomodoro_stop_Timer, pomodoro_startpause_Timer } from "./pomodoroState/pomodoroButton.js";
 
 //import { pomodoroHelper } from "./pomodoro_helper.js"
@@ -18,7 +19,13 @@ export function pomodoro_creator(): HTMLElement {
 	const	stop_Container = buttonContainer({id:{containerId:"stop_container", buttonId:"stop_button"}, classes:{containerClass:"hidden ps-10", buttonClass:"flex justify-center"}, customised:{text: "Stop", colour: "text-red-700", border: "border-3", hover: true, focus: true}});
 	const	timerDisplay = timerDisplay_function();
 
-	// startButton.addEventListener('click', startTimer);
+
+	if (pomodoro_Container)
+		pomodoro_Container.addEventListener('click', () => buttonHeader_pomodoro());
+	if (shortrest_Container)
+		shortrest_Container.addEventListener('click', () => buttonHeader_rest());
+	if (longrest_Container)
+		longrest_Container.addEventListener('click', () => buttonHeader_longrest());
 	// shortrest_Button.addEventListener('click', shortrest_Button);
 	// longrest_Button.addEventListener('click', longrest_Button);
 	const	start_pause_button = start_pause_Container.querySelector("#start_pause_button"); // ✅ 1. Find the actual button inside the container
