@@ -47,7 +47,7 @@ export function switchPhase(next: appState) {
 
 export function handlePhaseEnd() {
 	if (stateTimer.state === "pomodoro") {
-			if (cyclePomodoro != 0 && (cyclePomodoro % 2) == 0)
+			if (cyclePomodoro != 0 && (cyclePomodoro % 3) == 0)
 				switchPhase("longrest");
 			else
 				switchPhase("rest");
