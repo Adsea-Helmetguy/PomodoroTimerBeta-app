@@ -1,6 +1,5 @@
 # Pomodoro_Timer_LuoLuo
-My first Attempt at creating a Pomodoro Timer website
-Link: https://adsea-helmetguy.github.io/PomodoroTimerBeta-app/
+My first Attempt at creating a Pomodoro Timer!
 
 My Objectives:
 1) Create a simple html page that uses single page application.
