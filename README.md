@@ -3,10 +3,7 @@ My first Attempt at creating a Pomodoro Timer!
 
 My Objectives:
 1) Create a simple html page that uses single page application.
-2) Use typescript and tailwind.css, if not try with react as well
-3) research how others did their pomodoro timer, and can html, typescript, tailwind
-    be used for phone application?
-4) Does this application need backend? If yes why and how?
+2) Use typescript and tailwind.css and make this a frontend focused application!
 
 Target for my Second repo:
 1) make it cute and fluffly with cats
